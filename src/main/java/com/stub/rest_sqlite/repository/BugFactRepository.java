@@ -1,13 +1,13 @@
 package com.stub.rest_sqlite.repository;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.stub.rest_sqlite.entity.BugFact;
 
-public interface BugFactRepository extends CrudRepository<BugFact, Integer> {
+public interface BugFactRepository extends JpaRepository<BugFact, Integer> {
     BugFact findById(int id);
-    
-    List<BugFact> findAll();
+
+    @Query(value = "SELECT * FROM bug_fact ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
+    BugFact findRandomBugFact();
 }
