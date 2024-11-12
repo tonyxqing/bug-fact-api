@@ -30,4 +30,8 @@ public class BugFact {
     public String getFact() {
         return fact;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
