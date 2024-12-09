@@ -2,9 +2,6 @@ package com.stub.rest_sqlite.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,15 +39,13 @@ public class BugFactController {
     }
 
     @DeleteMapping("/remove-all")
-    public List<BugFact> removeAllBugFacts() {
+    public void removeAllBugFacts() {
         repository.deleteAll();
-        return repository.findAll();
     }
 
     @DeleteMapping("/remove/{id}")
-    public List<BugFact> removeBugFactById(@PathVariable int id) {
+    public void removeBugFactById(@PathVariable int id) {
         repository.deleteById(id);
-        return repository.findAll();
     }
 
     @PutMapping("/update/{id}")
@@ -58,9 +53,9 @@ public class BugFactController {
         if (repository.findById(id).isPresent()) {
             bugFact.setId(id);
             BugFact saved = repository.save(bugFact);
-            return ResponseEntity.status(HttpStatus.OK).body(saved);
+            return ResponseEntity.ok(saved);
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Fact id not found");
+        return ResponseEntity.badRequest().body(String.format("BugFact ID: %d is not valid", id));
     }
 }
